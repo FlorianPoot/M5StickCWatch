@@ -1,6 +1,6 @@
 # M5StickC Watch
 
-## Functionality
+## Features
 * Menu: where can be found the Clock, Battery and Image Reader. (Later, there will be a Settings icon for set clock and date)
 * Clock: for reading time and date.
 * Battery: you can see the battery level here. Also battery have different colors depending on the level of the battery (Green for high charge, Orange for middle charge, Red when almost empty and Yellow when charging).
@@ -15,8 +15,12 @@ esptool.py --chip esp32 --port <YOUR_PORT> erase_flash
 ```
 esptool.py --chip esp32 --port <YOUR_PORT> write_flash -z 0x1000 bootloader_0x1000.bin 0x10000 MicroPython_0x10000.bin 0x8000 partitions_mpy_0x8000.bin 0xf000 phy_init_data_0xf000.bin
 ```
-* Set time and date in Data/Clock.py by uncomment the two corresponding field in __init__().
-* Put main.py + Data/ + Libraries/ into the filesystem. (Warning: On Windows 
+If you use the backup firmware:
+```
+esptool.py --chip esp32 --port <YOUR_PORT> write_flash 0x0000 M5StickCWatch.bin
+```
+* Set time and date in "Data/Clock.py" by uncomment the two corresponding field in "\_\_init__()".
+* Put "main.py" + "Data/" + "Libraries/" into the filesystem. (You can skip this step if you use the backup firmware)
 ```
 ampy --port <YOUR_PORT> put main.py
 ampy --port <YOUR_PORT> mkdir Libraries
