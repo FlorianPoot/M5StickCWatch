@@ -1,6 +1,6 @@
 from m5stack import *
 
-import Data.Menu
+import data.menu
 import os
 
 
@@ -10,12 +10,12 @@ class ImageReader:
 
         """Read images from ImageReader_Data"""
 
-        self.images = os.listdir("Libraries/Images/ImageReader_Data")
+        self.images = os.listdir("data/images/ImageReader_Data")
         self._pos = 0
 
         lcd.clear(0xFF8000)
 
-        buttonA.wasPressed(callback=Data.Menu.Menu)
+        buttonA.wasPressed(callback=data.menu.Menu)
         buttonB.wasPressed(callback=self.next_image)
 
         self.next_image()
@@ -24,7 +24,7 @@ class ImageReader:
 
         """Display next image."""
 
-        lcd.image(0, 0, "Libraries/Images/ImageReader_Data/" + self.images[self.pos])
+        lcd.image(0, 0, "data/images/ImageReader_Data/" + self.images[self.pos])
         self.pos += 1
 
     @property

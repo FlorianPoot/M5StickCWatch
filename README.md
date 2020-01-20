@@ -31,5 +31,5 @@ ampy --port <YOUR_PORT> put Data/
 * Reboot the M5StickC and that's all !
 
 ## Images
-<img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/Images/img1.jpg" width="425"/> <img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/Images/img2.jpg" width="425"/>
-<img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/Images/img3.jpg" width="425"/> <img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/Images/img4.jpg" width="425"/>
+<img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/.images/img1.jpg" width="425"/> <img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/.images/img2.jpg" width="425"/>
+<img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/.images/img3.jpg" width="425"/> <img src="https://raw.githubusercontent.com/FlorianPoot/M5StickCWatch/master/.images/img4.jpg" width="425"/>

@@ -1,7 +1,7 @@
 from m5stack import *
 from machine import Timer
 
-import Data.Menu
+import data.menu
 
 
 class Battery:
@@ -72,7 +72,7 @@ class Battery:
         self.refresh.deinit()
 
         # Return to menu
-        return Data.Menu.Menu()
+        return data.menu.Menu()
 
     @staticmethod
     def map_value(x, in_min, in_max, out_min, out_max):

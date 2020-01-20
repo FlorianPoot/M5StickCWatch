@@ -1,7 +1,7 @@
 from m5stack import *
 from machine import Timer
 
-import Data.Menu
+import data.menu
 
 
 class Clock:
@@ -16,7 +16,7 @@ class Clock:
         self.date = -1
 
         lcd.clear(0xFF8000)
-        lcd.font("Libraries/Fonts/ariblk28.fon", transparent=False)  # Time font.
+        lcd.font("data/fonts/ariblk28.fon", transparent=False)  # Time font.
         lcd.setTextColor(color=lcd.WHITE, bcolor=0xFF8000)
 
         buttonA.wasPressed(callback=self.exit)
@@ -36,9 +36,9 @@ class Clock:
 
         current_date = rtc.getDate()
         if current_date[2] != self.date:
-            lcd.font("Libraries/Fonts/arial16.fon")
+            lcd.font("data/fonts/arial16.fon")
             lcd.print("%02d-%02d-%02d" % (current_date[2], current_date[1], current_date[0]), lcd.CENTER, 55)
-            lcd.font("Libraries/Fonts/ariblk28.fon")  # Restore Time font.
+            lcd.font("data/fonts/ariblk28.fon")  # Restore Time font.
 
             self.date = current_date[2]
 
@@ -49,4 +49,4 @@ class Clock:
         self.time.deinit()
 
         # Return to menu
-        return Data.Menu.Menu()
+        return data.menu.Menu()

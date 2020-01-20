@@ -1,8 +1,8 @@
 from m5stack import *
 
-import Data.Clock
-import Data.Battery
-import Data.ImageReader
+import data.clock
+import data.battery
+import data.image_reader
 
 import time
 
@@ -14,9 +14,9 @@ class Menu:
         """Initialize Menu."""
 
         # (Application, Icon).
-        self.apps = ((Data.Clock.Clock, "Clock"),
-                     (Data.Battery.Battery, "Battery"),
-                     (Data.ImageReader.ImageReader, "ImageReader"),
+        self.apps = ((data.clock.Clock, "Clock"),
+                     (data.battery.Battery, "Battery"),
+                     (data.image_reader.ImageReader, "ImageReader"),
                      (None, "Settings"))
 
         self._pos = 0
@@ -34,7 +34,7 @@ class Menu:
 
         for i in range(3):
             lcd.roundrect(2 + (i * 53), 4, 50, 72, 8, color=lcd.YELLOW, fillcolor=lcd.YELLOW)
-            lcd.image(2 + (i * 53), lcd.CENTER, "Libraries/Images/" + self.apps[i][1] + ".jpg")
+            lcd.image(2 + (i * 53), lcd.CENTER, "data/images/" + self.apps[i][1] + ".jpg")
 
     def select(self):
 
@@ -60,7 +60,7 @@ class Menu:
         """When functionality is not implemented yet."""
 
         lcd.clear(0xFF8000)
-        lcd.font("Libraries/Fonts/arial16.fon", transparent=True)
+        lcd.font("data/fonts/arial16.fon", transparent=True)
 
         lcd.print("Not implemented", lcd.CENTER, 25)
         lcd.print("yet", lcd.CENTER, 45)

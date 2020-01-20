@@ -1,5 +1,5 @@
 from m5stack import *
-from Data.Menu import *
+from data.menu import *
 
 
 if __name__ == "__main__":
