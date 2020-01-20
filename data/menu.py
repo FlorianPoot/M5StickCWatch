@@ -23,22 +23,31 @@ class Menu:
 
         buttonA.wasPressed(callback=self.select)
 
-        self.menu()
+        self.refresh()
+
+    def refresh(self):
+
+        """Clear and draw yellow rectangles."""
+
+        lcd.clear(0xFF8000)
+        for i in range(3):
+            lcd.roundrect(2 + (i * 53), 4, 50, 72, 8, color=lcd.YELLOW, fillcolor=lcd.YELLOW)
+
         self.select()
 
-    def menu(self):
+    def menu(self, menu_pos=0):
 
         """Draw Menu's icons."""
 
-        lcd.clear(0xFF8000)
-
         for i in range(3):
-            lcd.roundrect(2 + (i * 53), 4, 50, 72, 8, color=lcd.YELLOW, fillcolor=lcd.YELLOW)
-            lcd.image(2 + (i * 53), lcd.CENTER, "data/images/" + self.apps[i][1] + ".jpg")
+            lcd.image(2 + (i * 53), lcd.CENTER, "data/images/" + self.apps[i + menu_pos][1] + ".jpg")
 
     def select(self):
 
         """Draw BLACK outline and set callback to current selected item."""
+
+        if self.pos % 3 == 0:
+            self.menu(menu_pos=int(self.pos / 3))
 
         if self.apps[self.pos][0] is None:
             buttonB.wasPressed(callback=self.not_implemented)
@@ -46,7 +55,7 @@ class Menu:
             buttonB.wasPressed(callback=self.apps[self.pos][0])
 
         for i in range(3):
-            if i == self.pos:
+            if i == min(self.pos, 2):
                 lcd.roundrect(2 + (i * 53), 4, 50, 72, 8, color=lcd.BLACK)
                 lcd.roundrect(3 + (i * 53), 5, 48, 70, 7, color=lcd.BLACK)
             else:
@@ -67,7 +76,7 @@ class Menu:
 
         time.sleep(2)
 
-        self.menu()
+        self.refresh()
 
     @property
     def pos(self):
@@ -75,7 +84,7 @@ class Menu:
 
     @pos.setter
     def pos(self, value):
-        if self._pos + value > len(self.apps):
+        if self._pos + value > len(self.apps) + 1:
             self._pos = 0
         else:
             self._pos = value
