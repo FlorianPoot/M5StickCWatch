@@ -1,4 +1,4 @@
-from m5stack import *
+from hardware import *
 
 import data.menu
 import os
@@ -13,10 +13,10 @@ class ImageReader:
         self.images = os.listdir("data/images/ImageReader_Data")
         self._pos = 0
 
-        lcd.clear(0xFF8000)
+        lcd.clear()
 
-        buttonA.wasPressed(callback=data.menu.Menu)
-        buttonB.wasPressed(callback=self.next_image)
+        buttonA.was_pressed(callback=data.menu.Menu)
+        buttonB.was_pressed(callback=self.next_image)
 
         self.next_image()
 

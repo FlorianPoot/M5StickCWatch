@@ -1,4 +1,4 @@
-from m5stack import *
+from hardware import *
 from machine import Timer
 
 import data.menu
@@ -12,10 +12,10 @@ class Battery:
 
         self.vbat = int()
 
-        lcd.clear(0xFF8000)
+        lcd.clear()
 
-        buttonA.wasPressed(callback=self.exit)
-        buttonB.wasPressed(callback=lambda: None)
+        buttonA.was_pressed(callback=self.exit)
+        buttonB.was_pressed(callback=lambda: None)
 
         self.show_battery()
 
@@ -26,11 +26,11 @@ class Battery:
 
         """Convert battery voltage into bars."""
 
-        self.vbat = self.map_value(axp.getVbatData() * 1.1, 3000, 4100, 0, 6)
-        print(axp.getVbatData() * 1.1)
+        self.vbat = self.map_value(axp.get_vbat_data() * 1.1, 3000, 4100, 0, 6)
+        print(axp.get_vbat_data() * 1.1)
         print(self.vbat)
 
-        if axp.getIChargeData() / 2 > 0:
+        if axp.get_icharge_data() / 2 > 0:
             color = lcd.YELLOW
         elif self.vbat == 1:
             color = lcd.RED
@@ -40,30 +40,26 @@ class Battery:
             color = lcd.GREEN
 
         # Battery Icon.
-        lcd.fillRect(22, 10, 125, 60, lcd.BLACK)
-        lcd.fillRect(12, 30, 10, 20, lcd.BLACK)
+        lcd.rect(22, 10, 125, 60, lcd.BLACK, lcd.BLACK)
+        lcd.rect(12, 30, 10, 20, lcd.BLACK, lcd.BLACK)
 
         # Reset bars.
-        lcd.fillRect(127, 15, 15, 50, lcd.BLACK)
-        lcd.fillRect(107, 15, 15, 50, lcd.BLACK)
-        lcd.fillRect(87, 15, 15, 50, lcd.BLACK)
-        lcd.fillRect(67, 15, 15, 50, lcd.BLACK)
-        lcd.fillRect(47, 15, 15, 50, lcd.BLACK)
-        lcd.fillRect(27, 15, 15, 50, lcd.BLACK)
+        for i in range(6):
+            lcd.rect((i * 20) + 27, 15, 15, 50, lcd.BLACK, lcd.BLACK)
 
         # Draw bars.
         if self.vbat >= 1:
-            lcd.fillRect(127, 15, 15, 50, color)
+            lcd.rect(127, 15, 15, 50, color, color)
         if self.vbat >= 2:
-            lcd.fillRect(107, 15, 15, 50, color)
+            lcd.rect(107, 15, 15, 50, color, color)
         if self.vbat >= 3:
-            lcd.fillRect(87, 15, 15, 50, color)
+            lcd.rect(87, 15, 15, 50, color, color)
         if self.vbat >= 4:
-            lcd.fillRect(67, 15, 15, 50, color)
+            lcd.rect(67, 15, 15, 50, color, color)
         if self.vbat >= 5:
-            lcd.fillRect(47, 15, 15, 50, color)
+            lcd.rect(47, 15, 15, 50, color, color)
         if self.vbat >= 6:
-            lcd.fillRect(27, 15, 15, 50, color)
+            lcd.rect(27, 15, 15, 50, color, color)
 
     def exit(self):
 

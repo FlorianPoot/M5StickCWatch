@@ -1,4 +1,4 @@
-from m5stack import *
+from hardware import *
 from machine import Timer
 
 import data.menu
@@ -10,17 +10,16 @@ class Clock:
 
         """Set buttons callback, timer, colors and fonts."""
 
-        # rtc.setDate(2019, 9, 28, 6)
-        # rtc.setTime(15, 37, 00)
+        # rtc.set_date(2020, 3, 18, 3)
+        # rtc.set_time(15, 36, 00)
 
         self.date = -1
 
-        lcd.clear(0xFF8000)
-        lcd.font("data/fonts/ariblk28.fon", transparent=False)  # Time font.
-        lcd.setTextColor(color=lcd.WHITE, bcolor=0xFF8000)
+        lcd.clear()
+        lcd.font("data/fonts/ariblk28.fon")  # Time font.
 
-        buttonA.wasPressed(callback=self.exit)
-        buttonB.wasPressed(callback=lambda: None)
+        buttonA.was_pressed(callback=self.exit)
+        buttonB.was_pressed(callback=lambda: None)
 
         self.show_time_and_date()
 
@@ -31,13 +30,18 @@ class Clock:
 
         """Display time, display date only when it change."""
 
-        current_time = rtc.getTime()
-        lcd.print("%02d:%02d:%02d" % current_time, lcd.CENTER, 20)
+        current_time = rtc.get_time()
 
-        current_date = rtc.getDate()
+        # lcd.textClear(lcd.CENTER, 20, "00:00:00")
+        lcd.text(lcd.CENTER, 20, "%02d:%02d:%02d" % current_time, color=lcd.WHITE)
+
+        current_date = rtc.get_date()
         if current_date[2] != self.date:
             lcd.font("data/fonts/arial16.fon")
-            lcd.print("%02d-%02d-%02d" % (current_date[2], current_date[1], current_date[0]), lcd.CENTER, 55)
+
+            lcd.textClear(lcd.CENTER, 55, "00-00-00")
+            lcd.text(lcd.CENTER, 55, "%02d-%02d-%02d" % (current_date[2], current_date[1], current_date[0]), color=lcd.WHITE)
+
             lcd.font("data/fonts/ariblk28.fon")  # Restore Time font.
 
             self.date = current_date[2]

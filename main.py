@@ -1,11 +1,13 @@
-from m5stack import *
+from hardware import *
 from data.menu import *
 
 
 if __name__ == "__main__":
 
-    axp.screenBreath(10)
+    axp.screen_breath(10)
+
     lcd.orient(lcd.LANDSCAPE)
+    lcd.set_bg(0xFF8000)
 
     # Boot on Menu.
     Menu()

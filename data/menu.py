@@ -1,4 +1,4 @@
-from m5stack import *
+from hardware import *
 
 import data.clock
 import data.battery
@@ -21,7 +21,7 @@ class Menu:
 
         self._pos = 0
 
-        buttonA.wasPressed(callback=self.select)
+        buttonA.was_pressed(callback=self.select)
 
         self.refresh()
 
@@ -29,7 +29,7 @@ class Menu:
 
         """Clear and draw yellow rectangles."""
 
-        lcd.clear(0xFF8000)
+        lcd.clear()
         for i in range(3):
             lcd.roundrect(2 + (i * 53), 4, 50, 72, 8, color=lcd.YELLOW, fillcolor=lcd.YELLOW)
 
@@ -50,9 +50,9 @@ class Menu:
             self.menu(menu_pos=int(self.pos / 3))
 
         if self.apps[self.pos][0] is None:
-            buttonB.wasPressed(callback=self.not_implemented)
+            buttonB.was_pressed(callback=self.not_implemented)
         else:
-            buttonB.wasPressed(callback=self.apps[self.pos][0])
+            buttonB.was_pressed(callback=self.apps[self.pos][0])
 
         for i in range(3):
             if i == min(self.pos, 2):
@@ -68,11 +68,11 @@ class Menu:
 
         """When functionality is not implemented yet."""
 
-        lcd.clear(0xFF8000)
-        lcd.font("data/fonts/arial16.fon", transparent=True)
+        lcd.clear()
+        lcd.font("data/fonts/arial16.fon")
 
-        lcd.print("Not implemented", lcd.CENTER, 25)
-        lcd.print("yet", lcd.CENTER, 45)
+        lcd.text(lcd.CENTER, 25, "Not implemented", color=lcd.WHITE)
+        lcd.text(lcd.CENTER, 45, "yet", color=lcd.WHITE)
 
         time.sleep(2)
 
