@@ -10,9 +10,9 @@ class Battery:
 
         """Initialize Battery."""
 
-        self.vbat = int()
-
         lcd.clear()
+        lcd.font("data/fonts/aril24.fon")
+        lcd.set_bg(lcd.BLACK)
 
         buttonA.was_pressed(callback=self.exit)
         buttonB.was_pressed(callback=lambda: None)
@@ -26,46 +26,42 @@ class Battery:
 
         """Convert battery voltage into bars."""
 
-        self.vbat = self.map_value(axp.get_vbat_data() * 1.1, 3000, 4100, 0, 6)
-        print(axp.get_vbat_data() * 1.1)
-        print(self.vbat)
+        bat_data = axp.get_vbat_data() * 1.1
+
+        vbat = self.map_value(bat_data, 3000, 4100, 0, 7)
+        pbat = min(self.map_value(bat_data, 3000, 4100, 0, 100), 100)
+
+        print(bat_data)
+        print(vbat)
+        print(pbat)
 
         if axp.get_icharge_data() / 2 > 0:
             color = lcd.YELLOW
-        elif self.vbat == 1:
+        elif vbat == 1:
             color = lcd.RED
-        elif self.vbat == 2:
+        elif vbat == 2:
             color = lcd.ORANGE
         else:
             color = lcd.GREEN
 
         # Battery Icon.
-        lcd.rect(22, 10, 125, 60, lcd.BLACK, lcd.BLACK)
-        lcd.rect(12, 30, 10, 20, lcd.BLACK, lcd.BLACK)
-
-        # Reset bars.
-        for i in range(6):
-            lcd.rect((i * 20) + 27, 15, 15, 50, lcd.BLACK, lcd.BLACK)
+        lcd.rect(22, 5, 125, 50, lcd.BLACK, lcd.BLACK)
+        lcd.rect(12, 22, 10, 16, lcd.BLACK, lcd.BLACK)
 
         # Draw bars.
-        if self.vbat >= 1:
-            lcd.rect(127, 15, 15, 50, color, color)
-        if self.vbat >= 2:
-            lcd.rect(107, 15, 15, 50, color, color)
-        if self.vbat >= 3:
-            lcd.rect(87, 15, 15, 50, color, color)
-        if self.vbat >= 4:
-            lcd.rect(67, 15, 15, 50, color, color)
-        if self.vbat >= 5:
-            lcd.rect(47, 15, 15, 50, color, color)
-        if self.vbat >= 6:
-            lcd.rect(27, 15, 15, 50, color, color)
+        for i in range(1, 7):
+            if vbat >= i:
+                lcd.rect(((6 - i) * 20) + 27, 10, 15, 40, color, color)
+
+        lcd.roundrect(45, 58, 70, 20, 8, lcd.BLACK, lcd.BLACK)
+        lcd.text(lcd.CENTER, 63, str(round(pbat)) + "%", lcd.WHITE)
 
     def exit(self):
 
         """De-init timer and exit."""
 
         self.refresh.deinit()
+        lcd.set_bg(0xFF8000)
 
         # Return to menu
         return data.menu.Menu()
