@@ -37,7 +37,7 @@ class TimeInput:
 
         for i in range(3):
             if self.date and i < 2:
-                lcd.text((i * 50) + 10, lcd.CENTER, "%02d" % self.values[i] + 1, lcd.WHITE if self.index == i else lcd.LIGHTGREY)
+                lcd.text((i * 50) + 10, lcd.CENTER, "%02d" % (self.values[i] + 1), lcd.WHITE if self.index == i else lcd.LIGHTGREY)
             else:
                 lcd.text((i * 50) + 10, lcd.CENTER, "%02d" % self.values[i], lcd.WHITE if self.index == i else lcd.LIGHTGREY)
 
@@ -55,7 +55,10 @@ class TimeInput:
             else:
                 self.values[self.index] %= 60 if not self.date else 100
 
-            lcd.text((self.index * 50) + 10, lcd.CENTER, "%02d" % self.values[self.index], lcd.WHITE)
+            if self.date and self.index < 2:
+                lcd.text((self.index * 50) + 10, lcd.CENTER, "%02d" % (self.values[self.index] + 1), lcd.WHITE)
+            else:
+                lcd.text((self.index * 50) + 10, lcd.CENTER, "%02d" % self.values[self.index], lcd.WHITE)
 
             time.sleep_ms(200)
 
