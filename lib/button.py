@@ -1,12 +1,34 @@
-from utime import ticks_ms
 from machine import Pin
 
 
 class Button:
 
+    def __init__(self, pin):
+
+        self.pin = Pin(pin, mode=Pin.IN, handler=self.handler, trigger=Pin.IRQ_FALLING, debounce=100)
+
+        self._was_pressed = False
+
+    def handler(self, pin):
+        self._was_pressed = True
+
+    @property
+    def is_pressed(self):
+        return not self.pin.value()
+
+    @property
+    def was_pressed(self):
+        if self._was_pressed:
+            self._was_pressed = False
+            return True
+        else:
+            return False
+
+"""class Button:
+
     def __init__(self, pin, name="none", long_name="none", dbtime=20):
         self._pin = Pin(pin)
-        self._pin.init(Pin.IN, handler=self.irq_cb, trigger=(Pin.IRQ_FALLING|Pin.IRQ_RISING))
+        self._pin.init(Pin.IN, handler=self.irq_cb, trigger=(Pin.IRQ_FALLING | Pin.IRQ_RISING))
         self._wasPressed_cb = None
         self._wasReleased_cb = None
         self._releasedFor_cb = None
@@ -21,6 +43,7 @@ class Button:
 
     def irq_cb(self, pin):
         pin_val = pin.value()
+        print(pin_val)
         if self._pin == pin:
             # FALLING
             if pin_val == 0:
@@ -94,4 +117,4 @@ class Button:
             else:
                 return False
         else:
-            self._releasedFor_cb = callback
+            self._releasedFor_cb = callback"""

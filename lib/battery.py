@@ -1,7 +1,7 @@
 from hardware import *
 from machine import Timer
 
-import data.menu
+import menu
 import time
 
 
@@ -12,13 +12,11 @@ class Battery:
         """Initialize Battery."""
 
         self.bar_pos = 0
+        self.exit = False
 
         lcd.clear()
         lcd.font("data/fonts/aril24.fon")
         lcd.set_bg(lcd.BLACK)
-
-        buttonA.was_pressed(callback=self.exit)
-        buttonB.clear()
 
         # Battery icon.
         lcd.rect(12, 22, 10, 16, lcd.BLACK, lcd.BLACK)
@@ -29,6 +27,14 @@ class Battery:
         self.refresh.init(period=10000, mode=Timer.PERIODIC, callback=self.show_battery)
 
         self.show_battery()
+
+        while not self.exit:
+            if buttonA.was_pressed:
+                # Deinit timer, reset bg and exit.
+                self.refresh.deinit()
+                lcd.set_bg(0xFF8000)
+
+                self.exit = True
 
     def show_battery(self, t=None):
 
@@ -80,16 +86,6 @@ class Battery:
 
             lcd.roundrect(45, 58, 70, 20, 8, lcd.BLACK, lcd.BLACK)
             lcd.text(lcd.CENTER, 63, str(pbat) + "%", lcd.WHITE)
-
-    def exit(self):
-
-        """De-init timer and exit."""
-
-        self.refresh.deinit()
-        lcd.set_bg(0xFF8000)
-
-        # Return to menu
-        return data.menu.Menu()
 
     @staticmethod
     def map_value(x, in_min, in_max, out_min, out_max):

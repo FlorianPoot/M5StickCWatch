@@ -1,6 +1,4 @@
 from hardware import *
-
-import data.menu
 import os
 
 
@@ -12,13 +10,17 @@ class ImageReader:
 
         self.images = os.listdir("data/images/ImageReader_Data")
         self._pos = 0
+        self.exit = False
 
         lcd.clear()
 
-        buttonA.was_pressed(callback=data.menu.Menu)
-        buttonB.was_pressed(callback=self.next_image)
-
         self.next_image()
+
+        while not self.exit:
+            if buttonA.was_pressed:
+                self.exit = True
+            elif buttonB.was_pressed:
+                self.next_image()
 
     def next_image(self):
 
